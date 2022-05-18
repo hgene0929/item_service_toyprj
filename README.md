@@ -1,7 +1,7 @@
 # item_service_toyprj
 상품 관리 기능을 포함한 웹사이트를 스프링으로 개발한 토이 프로젝트입니다.
 
-<h3>서비스 요구사항</h3>
+<h3>Tool</h3>
 <ul>
   <li>IDE : Intellij</li>
   <li>DB : local memory</li>
