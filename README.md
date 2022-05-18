@@ -3,6 +3,13 @@
 
 <h3>서비스 요구사항</h3>
 <ul>
+  <li>IDE : Intellij</li>
+  <li>DB : local memory</li>
+  <li>Framework : Spring, Thymeleaf</li>
+</ul>
+
+<h3>서비스 요구사항</h3>
+<ul>
   <li>사이트의 목적 : 상품을 관리할 수 있다</li>
   <li>상품 도메인 : 상품ID, 상품명, 가격, 수량</li>
   <li>상품 관리 기능 : 상품목록 조회, 상품 상세목록 조회, 상품 등록, 상품 정보 수정</li>
