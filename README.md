@@ -23,3 +23,6 @@
   <li>검증코드 추가</li>
   <li></li>
 </ul>
+
+<h3>관련 정리 : </h3>
+https://gene0929.tistory.com/category/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EC%83%81%ED%92%88%EA%B4%80%EB%A6%AC%20%EC%82%AC%EC%9D%B4%ED%8A%B8%28toyprj-1%29
