@@ -3,6 +3,8 @@ package hello.itemservice.domain.item;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  *  롬복을 통해 getter와 setter 할당
  *  @Data 롬복은 예측하지 못한 상황을 유발하기 때문에 되도록 사용 X
@@ -18,7 +20,12 @@ public class Item {
     private Integer price;
     private Integer quantity;
 
-    public Item() {
+    private Boolean open; //판매여부
+    private List<String> regions; //등록지역 : 일반문자열로 처리시도
+    private ItemType itemType; //상품종류 : Enum 클래스로 처리시도
+    private String deliveryCode; //배송방식 : 일반 클래스로 처리시도
+
+   public Item() {
     }
 
     /**
