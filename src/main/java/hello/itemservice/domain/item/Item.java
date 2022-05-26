@@ -2,7 +2,12 @@ package hello.itemservice.domain.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.ScriptAssert;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -10,6 +15,7 @@ import java.util.List;
  *  @Data 롬복은 예측하지 못한 상황을 유발하기 때문에 되도록 사용 X
  * */
 @Getter @Setter
+//@ScriptAssert(lang = "javascript", script = "_this.price * _this.quantity >= 10000")
 public class Item {
     /**
      *  상품 객체의 필드

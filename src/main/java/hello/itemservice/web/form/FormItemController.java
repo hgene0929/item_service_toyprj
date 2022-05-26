@@ -1,10 +1,9 @@
 package hello.itemservice.web.form;
 
-import hello.itemservice.domain.item.DeliveryCode;
-import hello.itemservice.domain.item.Item;
-import hello.itemservice.domain.item.ItemRepository;
-import hello.itemservice.domain.item.ItemType;
+import hello.itemservice.domain.item.*;
 import hello.itemservice.web.validation.ItemValidator;
+import hello.itemservice.web.validation.form.ItemSaveForm;
+import hello.itemservice.web.validation.form.ItemUpdateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class FormItemController {
      * @RequiredArgsContructor 롬복으로 대체 가능
      **/
     private final ItemRepository itemRepository;
-    private final ItemValidator itemValidator;
+//    private final ItemValidator itemValidator;
 
     /**
      *  상품 목록 조회
@@ -194,15 +193,34 @@ public class FormItemController {
     } */
 
     @PostMapping("/add")
-    public String addItem(@ModelAttribute Item item, BindingResult bindingResult,
+    public String addItem(@Validated @ModelAttribute("item") ItemSaveForm form,
+                          BindingResult bindingResult,
                           RedirectAttributes redirectAttributes) {
 
-        itemValidator.validate(item, bindingResult);
+//        itemValidator.validate(item, bindingResult);
+
+        //특정 필드가 아닌 전체 예외
+        if (form.getPrice() != null && form.getQuantity() != null) {
+            int resultPrice = form.getPrice() * form.getQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice},
+                        null);
+            }
+        }
 
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "form/addForm";
         }
+
+        Item item = new Item();
+        item.setItemName(form.getItemName());
+        item.setPrice(form.getPrice());
+        item.setQuantity(form.getQuantity());
+        item.setOpen(form.getOpen());
+        item.setItemType(form.getItemType());
+        item.setRegions(form.getRegions());
+        item.setDeliveryCode(form.getDeliveryCode());
 
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
@@ -241,9 +259,33 @@ public class FormItemController {
      **/
      @PostMapping("/{itemId}/edit")
     public String edit(@PathVariable Long itemId,
-                       @ModelAttribute Item item) {
-         itemRepository.update(itemId, item);
+                       @Validated @ModelAttribute("item") ItemUpdateForm form,
+                       BindingResult bindingResult) {
 
+         //특정 필드 예외가 아닌 전체 예외
+         if (form.getPrice() != null && form.getQuantity() != null) {
+             int resultPrice = form.getPrice() * form.getQuantity();
+             if (resultPrice < 10000) {
+                 bindingResult.reject("totalPriceMin",
+                         new Object[]{10000, resultPrice}, null);
+             }
+         }
+
+         if (bindingResult.hasErrors()) {
+             log.info("errors={}", bindingResult);
+             return "form/editForm";
+         }
+
+         Item item = new Item();
+         item.setItemName(form.getItemName());
+         item.setPrice(form.getPrice());
+         item.setQuantity(form.getQuantity());
+         item.setOpen(form.getOpen());
+         item.setItemType(form.getItemType());
+         item.setRegions(form.getRegions());
+         item.setDeliveryCode(form.getDeliveryCode());
+
+         itemRepository.update(itemId, item);
          return "redirect:/form/items/{itemId}";
      }
 
